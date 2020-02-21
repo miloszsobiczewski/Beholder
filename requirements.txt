@@ -1,0 +1,6 @@
+Django==3.0.3
+celery==4.4.0
+django-environ==0.4.5
+selenium==3.141.0
+redis==3.4.1
+django-celery-beat==1.6.0

@@ -1,0 +1,4 @@
+Usage: {{ context.usage }} [GB]
+Remain: {{ context.remain }} [GB]
+Limit: {{ context.transfer_limit }} [GB]
+ 
