@@ -9,7 +9,6 @@ from django.template.loader import get_template
 from celery.decorators import periodic_task
 from celery.task.schedules import crontab
 from celery.utils.log import get_task_logger
-
 from config.celery import app
 
 from .monitor import RouterScraper
@@ -34,42 +33,7 @@ def send_email(email_list, subject, context):
     msg.send()
 
 
-@periodic_task(run_every=crontab(minute="*/1"))
-def heartbeat():
-    """
-    What it says
-    """
-    logger.info(f" MILOSZ - heartbeat: {datetime.datetime.now()}")
-
-
-# # @periodic_task(run_every=crontab(minute="*/1"))
-# def heartbeat():
-#     """
-#     What it says
-#     """
-#     users_email_list = Config.objects.get(key="users_email_list").value
-#     users_email_list = users_email_list.split(",")
-#
-#     subject = get_template(
-#     template_name='monitor/email/email_template_subject.txt'
-#     )
-#     message = get_template(
-#     template_name='monitor/email/email_template_message.txt'
-#     )
-#     html_message = get_template(
-#     template_name='monitor/email/email_template_message.html'
-#     )
-#
-#     d = {'username': "milosz"}
-#     message = message.render(d)
-#     html_message = html_message.render(d)
-#
-#     msg = EmailMultiAlternatives(subject, message, settings.EMAIL_SENDER, users_email_list)
-#     msg.attach_alternative(html_message, "text/html")
-#     msg.send()
-
-
-@periodic_task(run_every=crontab(minute="*/5"))
+@periodic_task(run_every=crontab(minute="* * * * * 3 0 0"))
 def check_usage():
     """
     Function is checking the actual value of data usage on router and saves it to django model
@@ -82,12 +46,12 @@ def check_usage():
     scraper.login()
     logger.info(f"check_usage : get stats")
     scraper.get_usage_stats()
-    # scraper.restart_router()
+    scraper.restart_router()
     logger.info(f"check_usage : log out")
     scraper.close()
 
 
-@periodic_task(run_every=crontab(minute="*/5"))
+@periodic_task(run_every=crontab(minute="* * * * * 3 15 0"))
 def monitor_usage():
     """
     Function is checking if the specified period data usage is close to set retention
@@ -126,8 +90,8 @@ def monitor_usage():
 
     if usage > float(data_retention):
         context = {
-            "usage": usage,
-            "remain": remain,
+            "usage": float(usage),
+            "remain": float(remain),
             "transfer_limit": transfer_limit,
             "retention": data_retention,
         }

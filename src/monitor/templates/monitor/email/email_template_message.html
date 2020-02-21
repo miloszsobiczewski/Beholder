@@ -1,4 +1,4 @@
-<h1>Warning you are entering the {{ retention }} retention period!</h1>
+<h1>Warning you are entering the {{ retention }} [GB] retention period!</h1>
 
 <p></p>
 <div class="results">
@@ -24,13 +24,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in summary %}
       <tr class="{% cycle 'row1' 'row2' %}">
         <td> {{ usage }} </td>
         <td> {{ remain }} </td>
         <td> {{ transfer_limit }} </td>
       </tr>
-      {% endfor %}
     </tbody>
 
   </table>
