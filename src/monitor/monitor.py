@@ -38,8 +38,16 @@ class RouterScraper:
 
     def get_usage_stats(self):
         self.driver.find_element_by_xpath('//*[@id="statistic"]/span').click()
-        usage = self.driver.find_element_by_xpath('//*[@id="month_used_value"]').text
-        usage = float(usage[: usage.find(" ")])
+        usage_txt = self.driver.find_element_by_xpath(
+            '//*[@id="month_used_value"]'
+        ).text
+        usage_list = usage_txt.split(" ")
+        if usage_list[1] == "GB":
+            usage = float(usage_list[0])
+        elif usage_list[1] == "MB":
+            usage = float(usage_list[0]) / 1024
+        else:
+            raise NotImplementedError
         Usage.objects.create(amount=usage)
 
     def restart_router(self):
@@ -49,6 +57,7 @@ class RouterScraper:
         self.driver.find_element_by_xpath('//*[@id="system"]').click()
         self.driver.find_element_by_xpath('//*[@id="label_reboot"]').click()
         self.driver.find_element_by_xpath('//*[@id="undefined"]').click()
+        self.driver.find_element_by_xpath('//*[@id="pop_confirm"]').click()
 
     def close(self):
         self.driver.quit()

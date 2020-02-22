@@ -16,6 +16,7 @@ from .models import Usage, Config
 
 logger = get_task_logger(__name__)
 
+
 @app.task
 def send_email(email_list, subject, context):
 
