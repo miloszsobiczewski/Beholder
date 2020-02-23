@@ -8,4 +8,4 @@ class Usage(models.Model):
 
 class Config(models.Model):
     key = models.CharField(max_length=16)
-    value = models.CharField(max_length=65)
+    value = models.CharField(max_length=256)
