@@ -9,16 +9,9 @@ from .models import Config, Usage
 class RouterScraper:
     def __init__(self):
         browser = Config.objects.filter(key="browser").get().value
-        if browser == "chrome":
-            self.driver = webdriver.Chrome(
-                executable_path=os.path.join(BASE_DIR, "static/chromedriver")
-            )
-        elif browser == "firefox":
-            self.driver = webdriver.Firefox(
-                executable_path=os.path.join(BASE_DIR, "static/geckodriver")
-            )
-        else:
-            raise NotImplementedError
+        self.driver = webdriver.Chrome(
+            executable_path=os.path.join(BASE_DIR, "static/", browser)
+        )
         self.url = Config.objects.filter(key="router_url").get().value
         self.username = Config.objects.filter(key="router_username").get().value
         self.password = Config.objects.filter(key="router_password").get().value
