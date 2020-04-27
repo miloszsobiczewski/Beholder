@@ -34,7 +34,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_celery_beat",
     "monitor",
+    "reminder",
 ]
+
+DEFAULT_USER_LIST = env("DEFAULT_USER_LIST", default="sobiczewski.milosz@gmail.com")
 
 CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="redis://localhost:6379/2")
 CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND", default="redis://localhost:6379/3")
