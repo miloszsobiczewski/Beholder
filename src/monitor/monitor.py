@@ -36,6 +36,7 @@ class RouterScraper:
         self.driver.find_element_by_xpath(
             "/html/body/div[2]/div/div/div[1]/div/div/div[3]/div[2]"
         ).click()
+
         self.driver.find_element_by_xpath('//*[@id="username"]').send_keys(
             self.username
         )
