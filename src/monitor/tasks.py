@@ -33,7 +33,7 @@ def send_email(email_list, subject, context):
     msg.send()
 
 
-@periodic_task(run_every=crontab(minute="0", hour="3"))
+# @periodic_task(run_every=crontab(minute="0", hour="3"))
 def check_usage():
     """
     Function is checking the actual value of data usage on router and saves it to django model
@@ -51,7 +51,7 @@ def check_usage():
     scraper.close()
 
 
-@periodic_task(run_every=crontab(minute="15", hour="3"))
+# @periodic_task(run_every=crontab(minute="15", hour="3"))
 def monitor_usage():
     """
     Function is checking if the specified period data usage is close to set retention
