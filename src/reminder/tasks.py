@@ -30,8 +30,7 @@ def send_email(email_list, subject, context):
     msg.send()
 
 
-# @periodic_task(run_every=crontab(minute="0", hour="3"))
-@periodic_task(run_every=crontab(minute='*/15'))
+@periodic_task(run_every=crontab(minute="0", hour="3"))
 def run_reminder():
     """
     Iterate through all memories and send reminder messages

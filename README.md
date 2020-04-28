@@ -59,3 +59,10 @@ celery -A config worker -l info
 # 4. celery beat - scheduler
 celery -A config beat -l debug --scheduler django_celery_beat.schedulers:DatabaseScheduler
 ```
+
+## Debuging
+
+test schedule:
+```python
+@periodic_task(run_every=crontab(minute='*/15'))
+```
