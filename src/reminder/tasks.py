@@ -48,7 +48,7 @@ def run_reminder():
             send_email.delay(settings.DEFAULT_USER_LIST.split(","), f"[Beholder] - {memory.name} - reminder", context)
             memory.active = False
             memory.save()
-        elif memory.day == date.today().day:
+        elif memory.day == date.today().day and memory.date is None:
             send_email.delay(settings.DEFAULT_USER_LIST.split(","), f"[Beholder] - {memory.name} - reminder", context)
         else:
             pass
