@@ -42,14 +42,19 @@ def run_reminder():
         context = {
             "name": memory.name,
             "text": memory.text,
-            "deadline": memory.deadline
+            "deadline": memory.deadline,
         }
+        recipients = memory.recipients.values_list("email", flat=True)
+
         if memory.date == date.today():
-            send_email.delay(settings.DEFAULT_USER_LIST.split(","), f"[Beholder] - {memory.name} - reminder", context)
+            send_email.delay(
+                recipients, f"[Beholder] - {memory.name} - reminder", context
+            )
             memory.active = False
             memory.save()
         elif memory.day == date.today().day and memory.date is None:
-            send_email.delay(settings.DEFAULT_USER_LIST.split(","), f"[Beholder] - {memory.name} - reminder", context)
+            send_email.delay(
+                recipients, f"[Beholder] - {memory.name} - reminder", context
+            )
         else:
             pass
-

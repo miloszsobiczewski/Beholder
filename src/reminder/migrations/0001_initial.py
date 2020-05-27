@@ -7,20 +7,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Memory',
+            name="Memory",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('text', models.TextField()),
-                ('day', models.PositiveIntegerField()),
-                ('deadline', models.CharField(max_length=100)),
-                ('active', models.BooleanField()),
-                ('date', models.DateField(blank=True, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("text", models.TextField()),
+                ("day", models.PositiveIntegerField()),
+                ("deadline", models.CharField(max_length=100)),
+                ("active", models.BooleanField()),
+                ("date", models.DateField(blank=True, null=True)),
             ],
         ),
     ]
