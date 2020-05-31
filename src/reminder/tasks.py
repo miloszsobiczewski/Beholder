@@ -45,16 +45,17 @@ def run_reminder():
             "deadline": memory.deadline,
         }
         recipients = memory.recipients.values_list("email", flat=True)
+        recipients_list = [recipient for recipient in recipients]
 
         if memory.date == date.today():
             send_email.delay(
-                recipients, f"[Beholder] - {memory.name} - reminder", context
+                recipients_list, f"[Beholder] - {memory.name} - reminder", context
             )
             memory.active = False
             memory.save()
         elif memory.day == date.today().day and memory.date is None:
             send_email.delay(
-                recipients, f"[Beholder] - {memory.name} - reminder", context
+                recipients_list, f"[Beholder] - {memory.name} - reminder", context
             )
         else:
             pass
