@@ -11,4 +11,4 @@ class UpcomingAdmin(admin.ModelAdmin):
 @admin.register(MoneyBall)
 class MoneyBallAdmin(admin.ModelAdmin):
     model = MoneyBall
-    list_display = ("hex_hash", "json_file")
+    list_display = ("hex_hash", "crated", "json_file")

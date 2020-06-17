@@ -4,11 +4,17 @@ import requests
 from datetime import datetime, timedelta
 import hashlib
 
+import django.utils.timezone
 from django.conf import settings
-from django.core.files import File
 from django.core.files.base import ContentFile
 
+from celery.decorators import periodic_task
+from celery.task.schedules import crontab
+from celery.utils.log import get_task_logger
+
 from moneyball.models import MoneyBall, Upcoming
+
+logger = get_task_logger(__name__)
 
 
 def my_request(sport_key, verbose=False):
@@ -43,6 +49,7 @@ def get_upcoming_data():
     ]
 
 
+@periodic_task(run_every=crontab(minute="0", hour="3"))
 def refresh_upcoming_model():
     for row in get_upcoming_data():
         hex_hash = row["teams"]
@@ -61,6 +68,7 @@ def refresh_upcoming_model():
             mb.json_file.save(f"{hex_hash}.json", json_file, save=True)
 
 
+@periodic_task(run_every=crontab(minute="*/15"))
 def collect_moneyball():
     for upcoming in Upcoming.objects.all():
         if upcoming.timestamp > datetime.now() + timedelta(
@@ -73,3 +81,4 @@ def collect_moneyball():
                 timestamp=_upcoming.timestamp,
                 json_file=_upcoming.json_file,
             )
+            _upcoming.delete()
