@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "monitor",
     "reminder",
+    "moneyball",
 ]
 
 DEFAULT_USER_LIST = env("DEFAULT_USER_LIST", default="sobiczewski.milosz@gmail.com")
@@ -125,3 +126,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT: str = env("MEDIA_ROOT", default=os.path.join(BASE_DIR, "media"))
