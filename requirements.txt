@@ -5,3 +5,4 @@ selenium==3.141.0
 redis==3.4.1
 django-celery-beat==1.6.0
 pyvirtualdisplay==0.2.5
+requests==2.24.0

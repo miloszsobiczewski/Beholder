@@ -4,7 +4,7 @@ import requests
 from datetime import datetime, timedelta
 import hashlib
 
-import django.utils.timezone
+from django.utils import timezone
 from django.conf import settings
 from django.core.files.base import ContentFile
 
@@ -59,23 +59,22 @@ def refresh_upcoming_model():
 
         file_name = os.path.join(settings.MEDIA_ROOT, f"{hex_hash}.json")
         with open(file_name, "w+") as f:
-            # json.dump(json.JSONEncoder().encode(row), f)
             json_file = ContentFile(json.JSONEncoder().encode(row))
-            # json_file = File(file=f, name=file_name)
-            mb, _ = Upcoming.objects.update_or_create(
+            upcoming, _ = Upcoming.objects.update_or_create(
                 hex_hash=hex_hash, timestamp=timestamp
             )
-            mb.json_file.save(f"{hex_hash}.json", json_file, save=True)
+            upcoming.json_file.save(f"{hex_hash}.json", json_file, save=True)
 
 
 @periodic_task(run_every=crontab(minute="*/15"))
 def collect_moneyball():
     for upcoming in Upcoming.objects.all():
-        if upcoming.timestamp > datetime.now() + timedelta(
-            hours=1
-        ) and upcoming.last_run < datetime.now() + timedelta(minutes=15):
-            refresh_upcoming_model()
-            _upcoming = Upcoming.objects.get(hex_hash=upcoming.hex_hash)
+        if upcoming.timestamp < timezone.now() + timedelta(hours=1, minutes=15):
+            if upcoming.last_run > timezone.now() - timedelta(minutes=20):
+                refresh_upcoming_model()
+                _upcoming = Upcoming.objects.get(hex_hash=upcoming.hex_hash)
+            else:
+                _upcoming = upcoming
             MoneyBall.objects.update_or_create(
                 hex_hash=_upcoming.hex_hash,
                 timestamp=_upcoming.timestamp,

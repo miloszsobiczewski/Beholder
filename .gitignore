@@ -8,4 +8,4 @@ __pychache__
 .idea
 .env
 static/drivers
-
+media/*
