@@ -1,4 +1,6 @@
+from django.utils import timezone
 from django.contrib import admin
+
 from moneyball.models import Upcoming, MoneyBall
 
 
@@ -9,7 +11,7 @@ class UpcomingAdmin(admin.ModelAdmin):
     ordering = ("timestamp",)
 
     def time_to_run(self, obj):
-        return obj.timestamp - obj.last_run
+        return obj.timestamp - timezone.now()
 
 
 @admin.register(MoneyBall)
