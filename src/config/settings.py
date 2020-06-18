@@ -53,6 +53,9 @@ EMAIL_HOST_USER = env("EMAIL_USER", default="")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD", default="")
 EMAIL_USE_TLS = True
 
+ODDS_API_URL = env("ODDS_API_URL")
+ODDS_API_KEY = env("ODDS_API_KEY")
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

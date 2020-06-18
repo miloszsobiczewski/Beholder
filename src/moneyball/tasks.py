@@ -17,25 +17,28 @@ from moneyball.models import MoneyBall, Upcoming
 logger = get_task_logger(__name__)
 
 
-def my_request(sport_key, verbose=False):
+def odds_request(sport_key):
     odds_response = requests.get(
-        "https://api.the-odds-api.com/v3/odds",
+        settings.ODDS_API_URL,
         params={
-            "api_key": "c12e9667a637e7d84aa5a21018b2fd88",
+            "api_key": settings.ODDS_API_KEY,
             "sport": sport_key,
             "region": "uk",  # uk | us | eu | au
             "mkt": "h2h",  # h2h | spreads | totals
         },
     )
-    # if verbose:
-    #     print('Remaining requests', odds_response.headers['x-requests-remaining'])
-    #     print('Used requests', odds_response.headers['x-requests-used'])
-    odds_json = json.loads(odds_response.text)
-    return odds_json
+    return odds_response
+
+
+def get_requests_status(odds_response):
+    return (
+        odds_response.headers["x-requests-remaining"],
+        odds_response.headers["x-requests-used"],
+    )
 
 
 def get_upcoming_data():
-    upcoming_data = my_request("upcoming")
+    upcoming_data = json.loads(odds_request("upcoming").text)
     return [
         x
         for x in upcoming_data["data"]
