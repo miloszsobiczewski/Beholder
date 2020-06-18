@@ -29,5 +29,5 @@ class Migration(migrations.Migration):
                 ("active", models.BooleanField()),
                 ("date", models.DateField(blank=True, null=True)),
             ],
-        ),
+        )
     ]

@@ -5,16 +5,10 @@ from .models import Config, Usage
 @admin.register(Config)
 class ConfigAdmin(admin.ModelAdmin):
     model = Config
-    list_display = [
-        "key",
-        "value",
-    ]
+    list_display = ["key", "value"]
 
 
 @admin.register(Usage)
 class UsageAdmin(admin.ModelAdmin):
     model = Usage
-    list_display = [
-        "date",
-        "amount",
-    ]
+    list_display = ["date", "amount"]

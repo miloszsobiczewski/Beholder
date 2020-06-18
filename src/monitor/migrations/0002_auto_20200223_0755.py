@@ -5,12 +5,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("monitor", "0001_initial"),
-    ]
+    dependencies = [("monitor", "0001_initial")]
 
     operations = [
         migrations.AlterField(
-            model_name="config", name="value", field=models.CharField(max_length=256),
-        ),
+            model_name="config", name="value", field=models.CharField(max_length=256)
+        )
     ]

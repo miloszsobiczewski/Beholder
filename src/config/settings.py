@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "monitor",
     "reminder",
     "moneyball",
+    "watchers",
 ]
 
 DEFAULT_USER_LIST = env("DEFAULT_USER_LIST", default="sobiczewski.milosz@gmail.com")
@@ -55,6 +56,11 @@ EMAIL_USE_TLS = True
 
 ODDS_API_URL = env("ODDS_API_URL")
 ODDS_API_KEY = env("ODDS_API_KEY")
+
+NBP_API_URL = env("NBP_API_URL")
+USD_THRESHOLD = env("USD_THRESHOLD")
+GBP_THRESHOLD = env("GBP_THRESHOLD")
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -79,9 +85,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-            ],
+            ]
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
@@ -103,11 +109,11 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 
