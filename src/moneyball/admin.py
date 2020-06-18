@@ -5,7 +5,11 @@ from moneyball.models import Upcoming, MoneyBall
 @admin.register(Upcoming)
 class UpcomingAdmin(admin.ModelAdmin):
     model = Upcoming
-    list_display = ("hex_hash", "last_run")
+    list_display = ("hex_hash", "time_to_run", "last_run", "timestamp")
+    ordering = ("timestamp",)
+
+    def time_to_run(self, obj):
+        return obj.timestamp - obj.last_run
 
 
 @admin.register(MoneyBall)
