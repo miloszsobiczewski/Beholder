@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import environ
 
+from django.conf.locale.en import formats as en_formats
+
 env = environ.Env()
 root = environ.Path(__file__) - 3
 environ.Env.read_env(env_file=root(".env"))  # reading .env file
@@ -111,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "CET"
 
 USE_I18N = True
 
@@ -119,6 +121,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATE_FORMAT = "%d-%m-%Y"
+en_formats.DATE_FORMAT = "d-m-Y"
+en_formats.DATETIME_FORMAT = "d-m-Y H:i:s"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
