@@ -17,13 +17,13 @@ from moneyball.models import MoneyBall, Upcoming
 logger = get_task_logger(__name__)
 
 
-def odds_request(sport_key):
+def odds_request(region='eu'):
     odds_response = requests.get(
         settings.ODDS_API_URL,
         params={
             "api_key": settings.ODDS_API_KEY,
-            "sport": sport_key,
-            "region": "uk",  # uk | us | eu | au
+            "sport": "upcoming",
+            "region": region,  # uk | us | eu | au
             "mkt": "h2h",  # h2h | spreads | totals
         },
     )
@@ -37,19 +37,26 @@ def get_requests_status(odds_response):
     )
 
 
-def get_upcoming_data():
-    upcoming_data = json.loads(odds_request("upcoming").text)
-    return [
-        x
-        for x in upcoming_data["data"]
-        if (
-            (
-                datetime.fromtimestamp(x["commence_time"])
-                > datetime.now() + timedelta(hours=1)
-            )
-            and (x["sport_key"].startswith("soccer"))
-        )
-    ]
+def get_upcoming_data(region):
+    upcoming_data = odds_request(region).json()
+    return [x for x in upcoming_data['data'] if datetime.fromtimestamp(x['commence_time']) > datetime.now() + timedelta(hours=1)]
+
+
+def get_and_concatenate_upcoming_data():
+    all_upcomings = { k: get_upcoming_data(k) for k in ['eu', 'uk', 'us', 'au']}
+
+    for region_name, region_request_value in all_upcomings.items():
+        for row in region_request_value:
+            row['sites_%s' % region_name] = row.pop('sites')
+            row['sites_count_%s' % region_name] = row.pop('sites_count')
+
+    list_of_rows = []
+    for i, _ in enumerate(region_request_value):
+        rows_i = [v[i] for k, v in all_upcomings.items()]
+        concatenated_row = {}
+        _ = [concatenated_row.update(d) for d in rows_i]
+        list_of_rows.append(concatenated_row)
+    return list_of_rows
 
 
 @periodic_task(run_every=crontab(minute="0", hour="3"))
@@ -74,7 +81,7 @@ def collect_moneyball():
     for upcoming in Upcoming.objects.all():
         if upcoming.timestamp < timezone.now() + timedelta(hours=1, minutes=15):
             if upcoming.last_run > timezone.now() - timedelta(minutes=20):
-                refresh_upcoming_model()
+                refresh_upcoming_model()    # [KS] tutaj chyba cos w stylu get_and_concatenate_upcoming_data()
                 _upcoming = Upcoming.objects.get(hex_hash=upcoming.hex_hash)
             else:
                 _upcoming = upcoming
