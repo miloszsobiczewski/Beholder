@@ -77,12 +77,11 @@ def refresh_upcoming_model(refresh_all=False):
         timestamp = datetime.fromtimestamp(row["commence_time"])
 
         file_name = os.path.join(settings.MEDIA_ROOT, f"{hex_hash}.json")
-        with open(file_name, "w+") as f:
-            json_file = ContentFile(json.JSONEncoder().encode(row))
-            upcoming, _ = Upcoming.objects.update_or_create(
-                hex_hash=hex_hash, timestamp=timestamp
-            )
-            upcoming.json_file.save(f"{hex_hash}.json", json_file, save=True)
+        json_file = ContentFile(json.JSONEncoder().encode(row))
+        upcoming, _ = Upcoming.objects.update_or_create(
+            hex_hash=hex_hash, timestamp=timestamp
+        )
+        upcoming.json_file.save(f"{hex_hash}.json", json_file, save=True)
 
 
 @periodic_task(run_every=crontab(minute="*/15"))
