@@ -65,8 +65,12 @@ def get_and_concatenate_upcoming_data():
 
 
 @periodic_task(run_every=crontab(minute="0", hour="3"))
-def refresh_upcoming_model():
-    for row in get_upcoming_data():
+def refresh_upcoming_model(refresh_all=False):
+    if refresh_all:
+        data = get_upcoming_data()
+    else:
+        data = get_and_concatenate_upcoming_data()
+    for row in data:
         hex_hash = row["teams"]
         hex_hash.append(str(row["commence_time"]))
         hex_hash = hashlib.md5("".join(hex_hash).encode("utf-8")).hexdigest()
@@ -86,10 +90,12 @@ def collect_moneyball():
     for upcoming in Upcoming.objects.all():
         if upcoming.timestamp < timezone.now() + timedelta(hours=1, minutes=15):
             if upcoming.last_run > timezone.now() - timedelta(minutes=20):
-                get_and_concatenate_upcoming_data()
+                refresh_upcoming_model(refresh_all=True)
+
                 _upcoming = Upcoming.objects.get(hex_hash=upcoming.hex_hash)
             else:
                 _upcoming = upcoming
+
             MoneyBall.objects.update_or_create(
                 hex_hash=_upcoming.hex_hash,
                 timestamp=_upcoming.timestamp,
