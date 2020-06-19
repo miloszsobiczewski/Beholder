@@ -76,7 +76,6 @@ def refresh_upcoming_model(refresh_all=False):
         hex_hash = hashlib.md5("".join(hex_hash).encode("utf-8")).hexdigest()
         timestamp = datetime.fromtimestamp(row["commence_time"])
 
-        file_name = os.path.join(settings.MEDIA_ROOT, f"{hex_hash}.json")
         json_file = ContentFile(json.JSONEncoder().encode(row))
         upcoming, _ = Upcoming.objects.update_or_create(
             hex_hash=hex_hash, timestamp=timestamp
