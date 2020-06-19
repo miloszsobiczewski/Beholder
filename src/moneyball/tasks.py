@@ -17,7 +17,7 @@ from moneyball.models import MoneyBall, Upcoming
 logger = get_task_logger(__name__)
 
 
-def odds_request(region='eu'):
+def odds_request(region):
     odds_response = requests.get(
         settings.ODDS_API_URL,
         params={
@@ -37,18 +37,23 @@ def get_requests_status(odds_response):
     )
 
 
-def get_upcoming_data(region):
+def get_upcoming_data(region="eu"):
     upcoming_data = odds_request(region).json()
-    return [x for x in upcoming_data['data'] if datetime.fromtimestamp(x['commence_time']) > datetime.now() + timedelta(hours=1)]
+    return [
+        x
+        for x in upcoming_data["data"]
+        if datetime.fromtimestamp(x["commence_time"])
+        > datetime.now() + timedelta(hours=1)
+    ]
 
 
 def get_and_concatenate_upcoming_data():
-    all_upcomings = { k: get_upcoming_data(k) for k in ['eu', 'uk', 'us', 'au']}
+    all_upcomings = {k: get_upcoming_data(k) for k in ["eu", "uk", "us", "au"]}
 
     for region_name, region_request_value in all_upcomings.items():
         for row in region_request_value:
-            row['sites_%s' % region_name] = row.pop('sites')
-            row['sites_count_%s' % region_name] = row.pop('sites_count')
+            row["sites_%s" % region_name] = row.pop("sites")
+            row["sites_count_%s" % region_name] = row.pop("sites_count")
 
     list_of_rows = []
     for i, _ in enumerate(region_request_value):
@@ -81,7 +86,7 @@ def collect_moneyball():
     for upcoming in Upcoming.objects.all():
         if upcoming.timestamp < timezone.now() + timedelta(hours=1, minutes=15):
             if upcoming.last_run > timezone.now() - timedelta(minutes=20):
-                refresh_upcoming_model()    # [KS] tutaj chyba cos w stylu get_and_concatenate_upcoming_data()
+                get_and_concatenate_upcoming_data()
                 _upcoming = Upcoming.objects.get(hex_hash=upcoming.hex_hash)
             else:
                 _upcoming = upcoming
