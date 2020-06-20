@@ -27,6 +27,7 @@ calculate_upcoming.short_description = "Collect MonayBall NOW!"
 class UpcomingAdmin(admin.ModelAdmin):
     model = Upcoming
     list_display = ("hex_hash", "time_to_run", "last_run", "timestamp")
+    readonly_fields = ("timestamp",)
     ordering = ("timestamp",)
     actions = (refresh_upcoming, calculate_upcoming)
 
@@ -38,3 +39,4 @@ class UpcomingAdmin(admin.ModelAdmin):
 class MoneyBallAdmin(admin.ModelAdmin):
     model = MoneyBall
     list_display = ("hex_hash", "crated", "json_file")
+    readonly_fields = ("timestamp",)
