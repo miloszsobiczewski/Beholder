@@ -71,11 +71,11 @@ def refresh_upcoming_model(refresh_all=False):
     else:
         data = get_upcoming_data()
     for row in data:
+        teams = " vs ".join(row["teams"])
         hex_hash = row["teams"]
         hex_hash.append(str(row["commence_time"]))
         hex_hash = hashlib.md5("".join(hex_hash).encode("utf-8")).hexdigest()
         timestamp = datetime.fromtimestamp(row["commence_time"])
-        teams = " vs ".join(row["teams"])
         sport_key = row["sport_key"]
 
         json_file = ContentFile(json.JSONEncoder().encode(row))

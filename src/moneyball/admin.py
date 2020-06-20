@@ -28,7 +28,7 @@ class UpcomingAdmin(admin.ModelAdmin):
     model = Upcoming
     list_display = (
         "hex_hash",
-        "sport_ket",
+        "sport_key",
         "teams",
         "time_to_run",
         "last_run",
@@ -47,7 +47,7 @@ class MoneyBallAdmin(admin.ModelAdmin):
     ordering = ("timestamp",)
     list_display = (
         "hex_hash",
-        "sport_ket",
+        "sport_key",
         "teams",
         "timestamp",
         "crated",
