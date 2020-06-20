@@ -26,7 +26,14 @@ calculate_upcoming.short_description = "Collect MonayBall NOW!"
 @admin.register(Upcoming)
 class UpcomingAdmin(admin.ModelAdmin):
     model = Upcoming
-    list_display = ("hex_hash", "time_to_run", "last_run", "timestamp")
+    list_display = (
+        "hex_hash",
+        "sport_ket",
+        "teams",
+        "time_to_run",
+        "last_run",
+        "timestamp",
+    )
     ordering = ("timestamp",)
     actions = (refresh_upcoming, calculate_upcoming)
 
@@ -37,4 +44,12 @@ class UpcomingAdmin(admin.ModelAdmin):
 @admin.register(MoneyBall)
 class MoneyBallAdmin(admin.ModelAdmin):
     model = MoneyBall
-    list_display = ("hex_hash", "crated", "json_file")
+    ordering = ("timestamp",)
+    list_display = (
+        "hex_hash",
+        "sport_ket",
+        "teams",
+        "timestamp",
+        "crated",
+        "json_file",
+    )
