@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "reminder",
     "moneyball",
     "watchers",
+    "rest_framework",
 ]
 
 DEFAULT_USER_LIST = env("DEFAULT_USER_LIST", default="sobiczewski.milosz@gmail.com")
