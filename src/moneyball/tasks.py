@@ -75,10 +75,12 @@ def refresh_upcoming_model(refresh_all=False):
         hex_hash.append(str(row["commence_time"]))
         hex_hash = hashlib.md5("".join(hex_hash).encode("utf-8")).hexdigest()
         timestamp = datetime.fromtimestamp(row["commence_time"])
+        teams = " vs ".join(row["teams"])
+        sport_key = row["sport_key"]
 
         json_file = ContentFile(json.JSONEncoder().encode(row))
         upcoming, _ = Upcoming.objects.update_or_create(
-            hex_hash=hex_hash, timestamp=timestamp
+            hex_hash=hex_hash, timestamp=timestamp, teams=teams, sport_key=sport_key
         )
         upcoming.json_file.save(f"{hex_hash}.json", json_file, save=True)
 
@@ -97,5 +99,7 @@ def collect_moneyball():
                 hex_hash=_upcoming.hex_hash,
                 timestamp=_upcoming.timestamp,
                 json_file=_upcoming.json_file,
+                teams=_upcoming.teams,
+                sport_key=_upcoming.sport_key,
             )
             _upcoming.delete()
