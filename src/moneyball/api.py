@@ -7,7 +7,7 @@ from moneyball.models import MoneyBall
 class MoneyBallSerializer(serializers.ModelSerializer):
     class Meta:
         model = MoneyBall
-        fields = ("json_file",)
+        fields = ("json_file", "result")
 
 
 class MoneyBallViewSet(viewsets.ModelViewSet):

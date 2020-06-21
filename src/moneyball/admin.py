@@ -44,7 +44,7 @@ class UpcomingAdmin(admin.ModelAdmin):
 @admin.register(MoneyBall)
 class MoneyBallAdmin(admin.ModelAdmin):
     model = MoneyBall
-    ordering = ("timestamp",)
+    ordering = ("-timestamp",)
     list_display = (
         "hex_hash",
         "sport_key",
