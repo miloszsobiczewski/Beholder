@@ -8,7 +8,7 @@ class MoneyBall(models.Model):
     crated = models.DateTimeField(auto_now_add=True)
     teams = models.CharField(max_length=64, null=True, default="")
     sport_key = models.CharField(max_length=32, null=True, default="")
-    result = models.CharField(max_length=8, default="")
+    result = models.CharField(max_length=8, blank=True, default="-")
 
     def __str__(self):
         return self.hex_hash

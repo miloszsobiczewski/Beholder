@@ -45,11 +45,9 @@ class UpcomingAdmin(admin.ModelAdmin):
 
 @admin.register(MoneyBall)
 class MoneyBallAdmin(admin.ModelAdmin):
-    formfield_overrides = {
-        models.CharField: {"widget": TextInput(attrs={"size": "4"})},
-    }
+    formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": "4"})}}
     model = MoneyBall
-    list_editable = ('result',)
+    list_editable = ("result",)
     ordering = ("-timestamp",)
     list_display = (
         "hex_hash",
