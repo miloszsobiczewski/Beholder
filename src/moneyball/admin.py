@@ -1,5 +1,7 @@
-from django.utils import timezone
 from django.contrib import admin, messages
+from django.db import models
+from django.forms import TextInput
+from django.utils import timezone
 
 from moneyball.models import Upcoming, MoneyBall
 from moneyball.tasks import refresh_upcoming_model, collect_moneyball
@@ -43,12 +45,17 @@ class UpcomingAdmin(admin.ModelAdmin):
 
 @admin.register(MoneyBall)
 class MoneyBallAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.CharField: {"widget": TextInput(attrs={"size": "4"})},
+    }
     model = MoneyBall
+    list_editable = ('result',)
     ordering = ("-timestamp",)
     list_display = (
         "hex_hash",
         "sport_key",
         "teams",
+        "result",
         "timestamp",
         "crated",
         "json_file",
