@@ -54,7 +54,7 @@ python manage.py runserver
 redis-server
 
 # 3. celery - task que
-celery -A config worker -l info
+celery -A config worker -l debug --logfile=celery.log
 
 # 4. celery beat - scheduler
 celery -A config beat -l debug --scheduler django_celery_beat.schedulers:DatabaseScheduler

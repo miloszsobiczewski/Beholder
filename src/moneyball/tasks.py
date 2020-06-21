@@ -69,9 +69,6 @@ def refresh_upcoming_model(refresh_all=False):
         data = get_and_concatenate_upcoming_data()
     else:
         data = get_upcoming_data()
-    import pdb
-
-    pdb.set_trace()
     for row in data:
         teams = " vs ".join(row["teams"])
         hex_hash = (row["teams"][0], row["teams"][1], str(row["commence_time"]))
