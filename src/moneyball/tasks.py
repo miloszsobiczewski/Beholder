@@ -69,6 +69,9 @@ def refresh_upcoming_model(refresh_all=False):
         data = get_and_concatenate_upcoming_data()
     else:
         data = get_upcoming_data()
+    import pdb
+
+    pdb.set_trace()
     for row in data:
         teams = " vs ".join(row["teams"])
         hex_hash = (row["teams"][0], row["teams"][1], str(row["commence_time"]))
@@ -87,12 +90,11 @@ def refresh_upcoming_model(refresh_all=False):
 def collect_moneyball():
     for upcoming in Upcoming.objects.all():
         if upcoming.timestamp < timezone.now() + timedelta(hours=1):
-            if upcoming.last_run > timezone.now() - timedelta(minutes=20):
-                refresh_upcoming_model(refresh_all=True)
-                _upcoming = Upcoming.objects.get(hex_hash=upcoming.hex_hash)
-            else:
-                _upcoming = upcoming
-
+            # if upcoming.last_run < timezone.now() - timedelta(minutes=20):
+            refresh_upcoming_model(refresh_all=True)
+            _upcoming = Upcoming.objects.get(hex_hash=upcoming.hex_hash)
+            # else:
+            #     _upcoming = upcoming
             MoneyBall.objects.update_or_create(
                 hex_hash=_upcoming.hex_hash,
                 timestamp=_upcoming.timestamp,
