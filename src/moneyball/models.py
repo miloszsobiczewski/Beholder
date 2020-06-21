@@ -7,7 +7,8 @@ class MoneyBall(models.Model):
     json_file = models.FileField(upload_to="ready")
     crated = models.DateTimeField(auto_now_add=True)
     teams = models.CharField(max_length=64, null=True, default="")
-    sport_key = models.CharField(max_length=16, null=True, default="")
+    sport_key = models.CharField(max_length=32, null=True, default="")
+    result = models.CharField(max_length=8, default="")
 
     def __str__(self):
         return self.hex_hash
@@ -19,7 +20,7 @@ class Upcoming(models.Model):
     json_file = models.FileField(upload_to="upcoming")
     last_run = models.DateTimeField(auto_now=True)
     teams = models.CharField(max_length=64, null=True, default="")
-    sport_key = models.CharField(max_length=16, null=True, default="")
+    sport_key = models.CharField(max_length=32, null=True, default="")
 
     def __str__(self):
         return self.hex_hash
