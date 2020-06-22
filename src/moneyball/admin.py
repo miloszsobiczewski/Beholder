@@ -52,9 +52,9 @@ class MoneyBallAdmin(admin.ModelAdmin):
     ordering = ("-timestamp",)
     list_display = (
         "hex_hash",
-        "sport_key",
         "teams",
         "result",
+        "sport_key",
         "timestamp",
         "json_file",
     )
