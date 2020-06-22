@@ -47,6 +47,7 @@ class UpcomingAdmin(admin.ModelAdmin):
 class MoneyBallAdmin(admin.ModelAdmin):
     formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": "4"})}}
     model = MoneyBall
+    search_fields = ("sport_key", "teams")
     list_editable = ("result",)
     ordering = ("-timestamp",)
     list_display = (
