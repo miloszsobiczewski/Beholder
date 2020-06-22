@@ -45,7 +45,7 @@ class UpcomingAdmin(admin.ModelAdmin):
 
 @admin.register(MoneyBall)
 class MoneyBallAdmin(admin.ModelAdmin):
-    formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": "4"})}}
+    formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": "5"})}}
     model = MoneyBall
     search_fields = ("sport_key", "teams")
     list_editable = ("result",)
@@ -56,6 +56,5 @@ class MoneyBallAdmin(admin.ModelAdmin):
         "teams",
         "result",
         "timestamp",
-        "crated",
         "json_file",
     )
