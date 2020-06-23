@@ -58,3 +58,4 @@ class MoneyBallAdmin(admin.ModelAdmin):
         "timestamp",
         "json_file",
     )
+    list_per_page = 20
