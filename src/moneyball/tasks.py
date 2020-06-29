@@ -26,8 +26,8 @@ def odds_request(region):
             "mkt": "h2h",  # h2h | spreads | totals
         },
     )
-    logger.info('Remaining requests', odds_response.headers['x-requests-remaining'])
-    logger.info('Used requests', odds_response.headers['x-requests-used'])
+    logger.info(f"Remaining requests: {odds_response.headers['x-requests-remaining']}")
+    logger.info(f"Used requests: {odds_response.headers['x-requests-used']}")
     return odds_response
 
 
