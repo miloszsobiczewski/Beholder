@@ -48,6 +48,7 @@ class MoneyBallAdmin(admin.ModelAdmin):
     formfield_overrides = {models.CharField: {"widget": TextInput(attrs={"size": "5"})}}
     model = MoneyBall
     search_fields = ("sport_key", "teams")
+    readonly_fields = ("created",)
     list_editable = ("result",)
     ordering = ("-timestamp",)
     list_display = (
@@ -57,5 +58,6 @@ class MoneyBallAdmin(admin.ModelAdmin):
         "sport_key",
         "timestamp",
         "json_file",
+        "created",
     )
     list_per_page = 20
