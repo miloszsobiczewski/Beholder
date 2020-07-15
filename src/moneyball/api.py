@@ -12,7 +12,7 @@ class MoneyBallSerializer(serializers.ModelSerializer):
             "teams",
             "sport_key",
             "timestamp",
-            "crated",
+            "created",
             "json_file",
             "result",
         )
