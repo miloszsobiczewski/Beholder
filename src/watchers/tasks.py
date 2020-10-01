@@ -27,7 +27,9 @@ def check_gbp_rate():
 def check_rates():
     usd_rate = check_usd_rate()
     gbp_rate = check_gbp_rate()
-    if usd_rate < float(settings.USD_THRESHOLD) or gbp_rate < float(settings.GBP_THRESHOLD):
+    if usd_rate < float(settings.USD_THRESHOLD) or gbp_rate < float(
+        settings.GBP_THRESHOLD
+    ):
         text = f"""
         USD: {usd_rate}
         GBP: {gbp_rate}

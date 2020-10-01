@@ -1,0 +1,23 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bokeh</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+</head>
+<body>
+<!--    # A plot-->
+    {{line_div| safe}}
+    <br>
+    {{hex_div| safe}}
+</body>
+<!--    # Javascript files-->
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-2.2.1.min.js"></script>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.2.1.min.js"></script>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-tables-2.2.1.min.js"></script>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-api-2.2.1.min.js"></script>
+    {{line_script | safe}}
+    {{hex_script | safe}}
+</html>

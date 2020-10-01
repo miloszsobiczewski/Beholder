@@ -16,9 +16,7 @@ logger = get_task_logger(__name__)
 
 @app.task
 def send_email(email_list, subject, context):
-    message = get_template(
-        template_name="reminder/email/email_template_message.txt"
-    )
+    message = get_template(template_name="reminder/email/email_template_message.txt")
     html_message = get_template(
         template_name="reminder/email/email_template_message.html"
     )
@@ -50,17 +48,13 @@ def run_reminder():
 
         if memory.date == date.today():
             send_email.delay(
-                recipients_list,
-                f"[Beholder] - {memory.name} - reminder",
-                context,
+                recipients_list, f"[Beholder] - {memory.name} - reminder", context
             )
             memory.active = False
             memory.save()
         elif memory.day == date.today().day and memory.date is None:
             send_email.delay(
-                recipients_list,
-                f"[Beholder] - {memory.name} - reminder",
-                context,
+                recipients_list, f"[Beholder] - {memory.name} - reminder", context
             )
         else:
             pass

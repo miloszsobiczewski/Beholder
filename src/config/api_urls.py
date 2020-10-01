@@ -7,6 +7,4 @@ router = routers.DefaultRouter()
 
 router.register(r"moneyball", MoneyBallViewSet, basename="moneyball")
 
-urlpatterns = [
-    path("api/v1/", include(router.urls)),
-]
+urlpatterns = [path("api/v1/", include(router.urls))]

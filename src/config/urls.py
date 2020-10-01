@@ -18,9 +18,13 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .api_urls import urlpatterns as api_urls
+from config.api_urls import urlpatterns as api_urls
+from dashboard import views as dashboard_views
 
-urlpatterns = [path("admin/", admin.site.urls)]
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", dashboard_views.home, name="dashboard"),
+]
 
 urlpatterns += api_urls
 
