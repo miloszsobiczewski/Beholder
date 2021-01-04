@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import environ
 
+import environ
 from django.conf.locale.en import formats as en_formats
 
 env = environ.Env()

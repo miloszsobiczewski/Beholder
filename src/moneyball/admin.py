@@ -3,8 +3,8 @@ from django.db import models
 from django.forms import TextInput
 from django.utils import timezone
 
-from moneyball.models import Upcoming, MoneyBall
-from moneyball.tasks import refresh_upcoming_model, collect_moneyball
+from moneyball.models import MoneyBall, Upcoming
+from moneyball.tasks import collect_moneyball, refresh_upcoming_model
 
 
 def refresh_upcoming(modeladmin, request, queryset):

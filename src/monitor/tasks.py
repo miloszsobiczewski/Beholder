@@ -1,18 +1,19 @@
 import datetime
 from decimal import Decimal
 
-from django.conf import settings
-from django.db.models import Sum
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
-
 from celery.decorators import periodic_task
 from celery.task.schedules import crontab
 from celery.utils.log import get_task_logger
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.db.models import Sum
+from django.template.loader import get_template
+
 from config.celery import app
 
+from .models import Config, Usage
 from .monitor import RouterScraper
-from .models import Usage, Config
+from monitor.services.exchange_rate_scraper.py import exchange_rate_scraper.py
 
 logger = get_task_logger(__name__)
 
@@ -99,3 +100,8 @@ def monitor_usage():
         send_email.delay(
             users_email_list, "Data usage warning on Mobile Viking", context
         )
+
+
+@periodic_task(run_every=crontab(minute="5"))
+def check_usage():
+    exchange_rate_scraper.scrap()

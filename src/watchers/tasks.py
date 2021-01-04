@@ -1,12 +1,11 @@
-import requests
 from urllib.parse import urljoin
 
-from django.template.loader import get_template
-from django.conf import settings
-
+import requests
 from celery.decorators import periodic_task
 from celery.task.schedules import crontab
 from celery.utils.log import get_task_logger
+from django.conf import settings
+from django.template.loader import get_template
 
 from reminder.tasks import send_email
 
@@ -27,7 +26,9 @@ def check_gbp_rate():
 def check_rates():
     usd_rate = check_usd_rate()
     gbp_rate = check_gbp_rate()
-    if usd_rate < float(settings.USD_THRESHOLD) or gbp_rate < float(settings.GBP_THRESHOLD):
+    if usd_rate < float(settings.USD_THRESHOLD) or gbp_rate < float(
+        settings.GBP_THRESHOLD
+    ):
         text = f"""
         USD: {usd_rate}
         GBP: {gbp_rate}
