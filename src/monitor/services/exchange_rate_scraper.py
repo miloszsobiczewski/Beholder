@@ -17,12 +17,14 @@ class ExchangeRateScraper:
 
         gbp = rates["GBP_PLN"]["ask"]
         usd = rates["USD_PLN"]["ask"]
-        self._save_to_db(gbp, usd)
+
+        return self._save_to_db(gbp, usd)
 
     def _save_to_db(self, gbp, usd):
-        ExchangeRate.objects.get_or_create(
+        rate, _ = ExchangeRate.objects.get_or_create(
             mid_gbp_exchange_rate=gbp, mid_usd_exchange_rate=usd
         )
+        return rate
 
 
 exchange_rate_scraper = ExchangeRateScraper()
