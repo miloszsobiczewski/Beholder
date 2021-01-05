@@ -1,0 +1,55 @@
+<head>
+<style>
+table {
+  width:30%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+#t01 tr:nth-child(even) {
+  background-color: #eee;
+}
+#t01 tr:nth-child(odd) {
+ background-color: #fff;
+}
+#t01 th {
+  background-color: black;
+  color: white;
+}
+</style>
+</head>
+
+<h1>GBP & USD exchange rates</h1>
+
+<p></p>
+<div class="results">
+    <table>
+
+    <thead>
+      <tr>
+        <th>
+          <div class="text">
+            <p>GBP MID rate</p>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <p>USD MID rate</p>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="{% cycle 'row1' 'row2' %}">
+        <td> {{ GBP_MID }} </td>
+        <td> {{ USD_MID }} </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

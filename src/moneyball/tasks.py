@@ -1,15 +1,14 @@
-import json
-import requests
-from datetime import datetime, timedelta
 import hashlib
+import json
+from datetime import datetime, timedelta
 
-from django.utils import timezone
-from django.conf import settings
-from django.core.files.base import ContentFile
-
+import requests
 from celery.decorators import periodic_task
 from celery.task.schedules import crontab
 from celery.utils.log import get_task_logger
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.utils import timezone
 
 from moneyball.models import MoneyBall, Upcoming
 

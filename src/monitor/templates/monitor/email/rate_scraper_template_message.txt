@@ -1,0 +1,2 @@
+GBP Mid: {{ context.GBP_MID }} PLN
+USD Mid: {{ context.USD_MID }} PLN

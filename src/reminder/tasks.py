@@ -1,12 +1,12 @@
 from datetime import date
 
+from celery.decorators import periodic_task
+from celery.task.schedules import crontab
+from celery.utils.log import get_task_logger
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 
-from celery.decorators import periodic_task
-from celery.task.schedules import crontab
-from celery.utils.log import get_task_logger
 from config.celery import app
 
 from .models import Memory
@@ -16,9 +16,7 @@ logger = get_task_logger(__name__)
 
 @app.task
 def send_email(email_list, subject, context):
-    message = get_template(
-        template_name="reminder/email/email_template_message.txt"
-    )
+    message = get_template(template_name="reminder/email/email_template_message.txt")
     html_message = get_template(
         template_name="reminder/email/email_template_message.html"
     )

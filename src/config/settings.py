@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import environ
 
+import environ
 from django.conf.locale.en import formats as en_formats
 
 env = environ.Env()
@@ -59,9 +59,11 @@ ODDS_API_URL = env("ODDS_API_URL")
 ODDS_API_KEY = env("ODDS_API_KEY")
 
 NBP_API_URL = env("NBP_API_URL")
-USD_THRESHOLD = env("USD_THRESHOLD")
-GBP_THRESHOLD = env("GBP_THRESHOLD")
 
+USD_HIGH_THRESHOLD = env("USD_HIGH_THRESHOLD")
+USD_LOW_THRESHOLD = env("USD_LOW_THRESHOLD")
+GBP_HIGH_THRESHOLD = env("GBP_HIGH_THRESHOLD")
+GBP_LOW_THRESHOLD = env("GBP_LOW_THRESHOLD")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

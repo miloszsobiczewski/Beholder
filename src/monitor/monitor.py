@@ -1,7 +1,8 @@
 import os
+
+from pyvirtualdisplay import Display
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-from pyvirtualdisplay import Display
 
 from config.settings import BASE_DIR
 
