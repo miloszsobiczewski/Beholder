@@ -6,6 +6,9 @@ Checks the daily usage of data transfer and send emails notifications.
 Usage is retrieved using selenium from the `Huawei B-315` router UI.
 Cron is set to `3 a.m.`.
 
+## 2 Exchange rate scrapper
+Checks `GBP` and `USD` exchange rates and sends email notifications.
+
 ### Configuring Pi
 ```bash
 # Install python requirements
