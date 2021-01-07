@@ -7,7 +7,13 @@ Usage is retrieved using selenium from the `Huawei B-315` router UI.
 Cron is set to `3 a.m.`.
 
 ## 2 Exchange rate scrapper
-Checks `GBP` and `USD` exchange rates and sends email notifications.
+Checks `GBP` and `USD` exchange rates every `*/5` and sends email notifications if 
+```python
+   gbp_rate < settings.GBP_LOW_THRESHOLD 
+or gbp_rate > settings.GBP_HIGH_THRESHOLD 
+or usd_rate < settings.USD_LOW_THRESHOLD 
+or usd_rate > settings.USD_HIGH_THRESHOLD
+```
 
 ### Configuring Pi
 ```bash
