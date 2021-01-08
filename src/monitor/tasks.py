@@ -130,6 +130,8 @@ def scrap_exchange_rates():
     gbp_rate = rate.mid_gbp_exchange_rate
     usd_rate = rate.mid_usd_exchange_rate
 
+    logger.info(f"USD: {usd_rate}, GBP: {gbp_rate}")
+
     if gbp_rate < settings.GBP_LOW_THRESHOLD or gbp_rate > settings.GBP_HIGH_THRESHOLD or usd_rate < settings.USD_LOW_THRESHOLD or usd_rate > settings.USD_HIGH_THRESHOLD:
         context = {
             "GBP_MID": gbp_rate,
