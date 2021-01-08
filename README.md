@@ -15,6 +15,18 @@ or usd_rate < settings.USD_LOW_THRESHOLD
 or usd_rate > settings.USD_HIGH_THRESHOLD
 ```
 
+## 3. Using selenium headless
+
+```python
+sudo upt-get install xvfb
+
+GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/latest | grep -Po 'v[0-9]+.[0-9]+.[0-9]+'` && \
+    wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
+    tar -zxf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz -C /usr/local/bin && \
+    chmod +x /usr/local/bin/geckodriver && \
+    rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+```
+
 ### Configuring Pi
 ```bash
 # Install python requirements

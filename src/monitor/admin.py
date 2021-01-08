@@ -18,4 +18,13 @@ class UsageAdmin(admin.ModelAdmin):
 @admin.register(ExchangeRate)
 class ExchangeRateAdmin(admin.ModelAdmin):
     model = ExchangeRate
-    list_display = ["date", "mid_gbp_exchange_rate", "mid_usd_exchange_rate"]
+    readonly_fields = ("date",)
+    list_display = [
+        "date",
+        "buy_gbp",
+        "mid_gbp",
+        "sell_gbp",
+        "buy_usd",
+        "mid_usd",
+        "sell_usd",
+    ]

@@ -34,20 +34,38 @@ th, td {
       <tr>
         <th>
           <div class="text">
-            <p>GBP MID rate</p>
+            <p></p>
           </div>
         </th>
         <th>
           <div class="text">
-            <p>USD MID rate</p>
+            <p>Buy</p>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <p>Mid</p>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <p>Sell</p>
           </div>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr class="{% cycle 'row1' 'row2' %}">
+        <td><b> GBP </b>  </td>
+        <td> {{ GBP_BUY }} </td>
         <td> {{ GBP_MID }} </td>
+        <td> {{ GBP_SELL }} </td>
+      </tr>
+      <tr class="{% cycle 'row1' 'row2' %}">
+        <td><b> USD </b>  </td>
+        <td> {{ USD_BUY }} </td>
         <td> {{ USD_MID }} </td>
+        <td> {{ USD_SELL }} </td>
       </tr>
     </tbody>
 

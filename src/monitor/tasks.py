@@ -10,7 +10,6 @@ from django.db.models import Sum
 from django.template.loader import get_template
 
 from config.celery import app
-
 from monitor.models import Config, Usage
 from monitor.monitor import RouterScraper
 from monitor.services.exchange_rate_scraper import exchange_rate_scraper
@@ -21,27 +20,25 @@ RATE_SCRAPER = "rate_scraper"
 
 
 class MessageRenderer:
-    _SUBJECT_MAPPING = {
-        RATE_SCRAPER: "GBP or USD exchange rate are promising ;)"
-    }
+    _SUBJECT_MAPPING = {RATE_SCRAPER: "GBP or USD exchange rate are promising ;)"}
     _TEMPLATE_MAPPING = {
         RATE_SCRAPER: {
             "message": "monitor/email/rate_scraper_template_message.txt",
-            "html_message": "monitor/email/rate_scraper_template_message.html"
+            "html_message": "monitor/email/rate_scraper_template_message.html",
         }
     }
 
     def render(self, email_list, category, context):
         template = self._TEMPLATE_MAPPING[category]
         message = get_template(template_name=template["message"])
-        html_message = get_template(
-            template_name=template["html_message"]
-        )
+        html_message = get_template(template_name=template["html_message"])
 
         message = message.render(context)
         html_message = html_message.render(context)
 
-        msg = EmailMultiAlternatives(self._SUBJECT_MAPPING[category], message, settings.EMAIL_SENDER, email_list)
+        msg = EmailMultiAlternatives(
+            self._SUBJECT_MAPPING[category], message, settings.EMAIL_SENDER, email_list
+        )
         msg.attach_alternative(html_message, "text/html")
         return msg
 
@@ -127,15 +124,51 @@ def scrap_exchange_rates():
     emails = Config.objects.get(key="users_email_list").value.split(",")
     rate = exchange_rate_scraper.scrap()
 
-    gbp_rate = rate.mid_gbp_exchange_rate
-    usd_rate = rate.mid_usd_exchange_rate
+    mid_gbp = rate.mid_gbp
+    mid_usd = rate.mid_usd
 
-    logger.info(f"USD: {usd_rate}, GBP: {gbp_rate}")
+    logger.info(f"USD: {mid_usd}, GBP: {mid_gbp}")
 
-    if gbp_rate < settings.GBP_LOW_THRESHOLD or gbp_rate > settings.GBP_HIGH_THRESHOLD or usd_rate < settings.USD_LOW_THRESHOLD or usd_rate > settings.USD_HIGH_THRESHOLD:
+    if (
+        mid_gbp < settings.GBP_LOW_THRESHOLD
+        or mid_gbp > settings.GBP_HIGH_THRESHOLD
+        or mid_usd < settings.USD_LOW_THRESHOLD
+        or mid_usd > settings.USD_HIGH_THRESHOLD
+    ):
         context = {
-            "GBP_MID": gbp_rate,
-            "USD_MID": usd_rate,
+            "GBP_MID": mid_gbp,
+            "USD_MID": mid_usd,
+        }
+        msg = message_renderer.render(emails, RATE_SCRAPER, context)
+        send_email.delay(msg)
+
+
+@periodic_task(run_every=crontab(minute="10"))
+def scrap_alior_exchange_rates():
+    emails = Config.objects.get(key="users_email_list").value.split(",")
+    rate = exchange_rate_scraper.scrap_alior()
+
+    buy_gbp = rate.buy_gbp
+    sell_gbp = rate.sell_gbp
+    buy_usd = rate.buy_usd
+    sell_usd = rate.sell_usd
+
+    logger.info(
+        f"BUY USD: {buy_usd}, SELL USD: {sell_usd}, BUY GBP: {buy_gbp}, SELL GBP: {sell_gbp}"
+    )
+
+    if (
+        True
+        or buy_gbp < settings.GBP_LOW_THRESHOLD
+        or sell_gbp > settings.GBP_HIGH_THRESHOLD
+        or buy_usd < settings.USD_LOW_THRESHOLD
+        or sell_usd > settings.USD_HIGH_THRESHOLD
+    ):
+        context = {
+            "GBP_BUY": buy_gbp,
+            "GBP_SELL": sell_gbp,
+            "USD_BUY": buy_usd,
+            "USD_SELL": sell_usd,
         }
         msg = message_renderer.render(emails, RATE_SCRAPER, context)
         send_email.delay(msg)

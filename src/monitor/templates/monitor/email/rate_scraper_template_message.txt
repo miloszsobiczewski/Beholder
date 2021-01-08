@@ -1,2 +1,6 @@
+GBP Buy: {{ context.GBP_BUY}} PLN
 GBP Mid: {{ context.GBP_MID }} PLN
+GBP Sell: {{ context.GBP_SELL }} PLN
+USD Buy: {{ context.USD_BUY }} PLN
 USD Mid: {{ context.USD_MID }} PLN
+USD Sell: {{ context.USD_SELL }} PLN
