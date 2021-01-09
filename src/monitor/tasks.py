@@ -47,7 +47,8 @@ message_renderer = MessageRenderer()
 
 
 @app.task
-def send_email(msg):
+def send_email(emails, subject, context):
+    msg = message_renderer.render(emails, subject, context)
     msg.send()
 
 
@@ -139,8 +140,7 @@ def scrap_exchange_rates():
             "GBP_MID": mid_gbp,
             "USD_MID": mid_usd,
         }
-        msg = message_renderer.render(emails, RATE_SCRAPER, context)
-        send_email.delay(msg)
+        send_email.delay(emails, RATE_SCRAPER, context)
 
 
 @periodic_task(run_every=crontab(minute="10"))
@@ -158,8 +158,7 @@ def scrap_alior_exchange_rates():
     )
 
     if (
-        True
-        or buy_gbp < settings.GBP_LOW_THRESHOLD
+        buy_gbp < settings.GBP_LOW_THRESHOLD
         or sell_gbp > settings.GBP_HIGH_THRESHOLD
         or buy_usd < settings.USD_LOW_THRESHOLD
         or sell_usd > settings.USD_HIGH_THRESHOLD
@@ -170,5 +169,4 @@ def scrap_alior_exchange_rates():
             "USD_BUY": buy_usd,
             "USD_SELL": sell_usd,
         }
-        msg = message_renderer.render(emails, RATE_SCRAPER, context)
-        send_email.delay(msg)
+        send_email.delay(emails, RATE_SCRAPER, context)

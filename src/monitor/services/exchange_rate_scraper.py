@@ -22,10 +22,10 @@ class ExchangeRateScraper:
         data = soup.findAll("script", {"type": "text/javascript"})
         rates = json.loads(data[11].string[152:-6])
 
-        gbp = rates["GBP_PLN"]["ask"]
-        usd = rates["USD_PLN"]["ask"]
+        mid_gbp = rates["GBP_PLN"]["ask"]
+        mid_usd = rates["USD_PLN"]["ask"]
 
-        return self._save_to_db(gbp, usd)
+        return self._save_to_db(gbp_mid=mid_gbp, usd_mid=mid_usd)
 
     def _save_to_db(
         self,
