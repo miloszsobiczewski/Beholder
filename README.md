@@ -18,7 +18,7 @@ or usd_rate > settings.USD_HIGH_THRESHOLD
 ## 3. Using selenium headless
 
 ```python
-sudo upt-get install xvfb
+sudo apt-get install xvfb
 
 GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/latest | grep -Po 'v[0-9]+.[0-9]+.[0-9]+'` && \
     wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz && \
